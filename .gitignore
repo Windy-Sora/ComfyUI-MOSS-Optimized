@@ -7,3 +7,5 @@ dist/
 *.log
 Start-Test.bat
 result.json
+
+.bug-hunter/
