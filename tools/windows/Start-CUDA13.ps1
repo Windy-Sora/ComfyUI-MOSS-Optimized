@@ -20,7 +20,7 @@ $extraPaths = Join-Path $config.state_dir 'plugin_paths.json'
 @{moss_optimized=@{custom_nodes=(Split-Path $pluginRoot -Parent)}} | ConvertTo-Json -Depth 3 | Set-Content -LiteralPath $extraPaths -Encoding UTF8
 $entry = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\run_comfy.py'))
 $arguments = @(('"'+$entry+'"'), ('"'+$config.comfy_root+'"'), '--listen','127.0.0.1','--port',"$Port",'--use-ck-attention','--disable-xformers','--cuda-malloc','--preview-method','none','--extra-model-paths-config',('"'+$extraPaths+'"'),'--user-directory',('"'+$userDir+'"'),'--output-directory',('"'+$outputDir+'"'),'--temp-directory',('"'+$tempDir+'"'),'--input-directory',('"'+$inputDir+'"'))
-if (-not $AllCustomNodes) { $arguments += @('--disable-all-custom-nodes','--whitelist-custom-nodes',$pluginName) }
+if (-not $AllCustomNodes) { $arguments += @('--disable-all-custom-nodes','--whitelist-custom-nodes',('"'+$pluginName+'"')) }
 if (-not $NoBrowser) { $arguments += '--auto-launch' }
 Start-Process -FilePath $config.python -ArgumentList $arguments -WorkingDirectory $config.comfy_root -WindowStyle Hidden -RedirectStandardOutput (Join-Path $logDir "stdout-$Port.log") -RedirectStandardError (Join-Path $logDir "stderr-$Port.log")
 Write-Host "Starting http://127.0.0.1:$Port ; logs: $logDir"
