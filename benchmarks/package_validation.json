@@ -1,0 +1,55 @@
+{
+  "version": "0.1.0a1",
+  "status": "experimental release candidate",
+  "date": "2026-10-17",
+  "tested_platform": "Windows, Python 3.10.11, RTX 5070 Ti Laptop 12 GB, 32 GB RAM",
+  "comfyui_commit": "b53f77a74",
+  "checks": {
+    "python_syntax": "passed",
+    "powershell_syntax": "passed",
+    "gui_workflow_links": "passed",
+    "plugin_install_backup_restore": "passed",
+    "restore_path_containment": "passed",
+    "fresh_cuda13_install": "passed after using official PyPI instead of an incomplete mirror",
+    "fresh_runtime_compile_check": "passed",
+    "fresh_runtime_pip_check": "passed",
+    "generic_lora_patch": "passed on a small synthetic unquantized MOSS model",
+    "dynamic_compilation_generate_clear_switch_generate": "passed: compiled 8-step generation, clear caches, eager 8-step generation",
+    "final_50_step_unload": "passed; local service remained responsive after clearing model/execution caches"
+  },
+  "generation": {
+    "original_environment_eager_8_steps": "success, 27.74 s server time",
+    "original_environment_compiled_8_steps": "success after clearing execution/model caches",
+    "fresh_environment_compiled_50_steps": {
+      "status": "success",
+      "server_seconds": 86.52,
+      "client_seconds": 86.829,
+      "sampling_seconds_approx": 75,
+      "width": 1024,
+      "height": 1536,
+      "steps": 50,
+      "seed": 2026101720,
+      "cfg": 3,
+      "shift": 5,
+      "sampler": "euler",
+      "scheduler": "sgm_uniform",
+      "slg_single_layer": 22,
+      "decode": "VAEDecodeTiled, tile_size 512, overlap 64",
+      "model_patcher": "native dynamic CoreModelPatcher"
+    },
+    "fresh_environment_dynamic_compiled_8_steps": "success, 25.28 s server time",
+    "fresh_environment_eager_after_cache_clear": "success, 22.32 s server time"
+  },
+  "known_failures": [
+    "Consecutive eager/compiled tests without clearing model and execution caches exhausted system memory during ordinary VAE decode.",
+    "Full-frame VAE decode failed with native memory allocation failure/access violation in inherited and fresh runtime 50-step tests. The bundled example uses standard tiled VAE decode; model/core code was not changed to hide this.",
+    "An earlier candidate forced a non-dynamic ModelPatcher and crashed during quantized model unload. Final code retains native dynamic model storage; generate/clear/switch/regenerate and post-50-step unload passed."
+  ],
+  "limitations": [
+    "Single machine; no statistical speedup claim.",
+    "Actual quantized MOSS LoRA files and other GPU platforms are not validated.",
+    "Historical 89.19 s result predates standalone packaging and used a different decode workflow.",
+    "Third-party patches depending on the old internal RoPE layout need separate validation."
+  ],
+  "privacy": "Package includes only source, safe example workflows, tools, notices and sanitized reports; runtime, models, user profiles, browser data and raw logs excluded."
+}

@@ -1,0 +1,128 @@
+{
+  "4": {
+    "inputs": {
+      "text": "高品质国风古装女性摄影作品，一位约28岁的中国成年女子，温婉自信，清秀自然的鹅蛋脸，明亮眼神，淡雅妆容，真实自然的皮肤细节。乌黑长发盘成优雅发髻，佩戴一支简洁的白玉发簪和小巧珍珠耳坠。穿象牙白交领内衫、浅青绿色丝绸广袖汉服与烟粉色长裙，衣领与袖口有克制精细的兰花刺绣，布料层次清楚、衣服完整得体。她坐在江南园林的木质窗边，身体微侧，脸转向镜头，双手自然搭在膝上一把合拢的折扇上，手指结构准确。三分之二身肖像，人物占据画面主体，窗外是朦胧荷塘、白墙黛瓦与几枝垂柳。雨后清晨柔和侧光，肤色温暖通透，背景青绿清淡，少量粉色荷花呼应裙子。精致但不堆砌饰物，构图疏朗，写实人像摄影，自然镜头质感，衣服丝绸反光细腻，人物与背景光线统一。画面没有文字、水印或边框。",
+      "clip": [
+        "22",
+        0
+      ]
+    },
+    "class_type": "CLIPTextEncode"
+  },
+  "5": {
+    "inputs": {
+      "text": "",
+      "clip": [
+        "22",
+        0
+      ]
+    },
+    "class_type": "CLIPTextEncode"
+  },
+  "6": {
+    "inputs": {
+      "width": 1024,
+      "height": 1536,
+      "batch_size": 1
+    },
+    "class_type": "EmptyFlux2LatentImage"
+  },
+  "13": {
+    "inputs": {
+      "double_layers": "",
+      "single_layers": "22",
+      "start_percent": 0,
+      "end_percent": 1,
+      "model": [
+        "15",
+        0
+      ]
+    },
+    "class_type": "SkipLayerGuidanceDiTSimple"
+  },
+  "15": {
+    "inputs": {
+      "shift": 5,
+      "model": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "ModelSamplingSD3"
+  },
+  "16": {
+    "inputs": {
+      "seed": 2026101720,
+      "steps": 50,
+      "cfg": 3,
+      "sampler_name": "euler",
+      "scheduler": "sgm_uniform",
+      "denoise": 1,
+      "model": [
+        "13",
+        0
+      ],
+      "positive": [
+        "4",
+        0
+      ],
+      "negative": [
+        "5",
+        0
+      ],
+      "latent_image": [
+        "6",
+        0
+      ]
+    },
+    "class_type": "KSampler"
+  },
+  "17": {
+    "inputs": {
+      "samples": [
+        "16",
+        0
+      ],
+      "vae": [
+        "23",
+        0
+      ],
+      "tile_size": 512,
+      "overlap": 64,
+      "temporal_size": 64,
+      "temporal_overlap": 8
+    },
+    "class_type": "VAEDecodeTiled"
+  },
+  "18": {
+    "inputs": {
+      "filename_prefix": "MOSS_Optimized/Example",
+      "images": [
+        "17",
+        0
+      ]
+    },
+    "class_type": "SaveImage"
+  },
+  "21": {
+    "class_type": "MOSSOptimizedLoader",
+    "inputs": {
+      "unet_name": "moss_image_sft_int8_convrot.safetensors",
+      "weight_dtype": "default",
+      "compile_situ": false
+    }
+  },
+  "22": {
+    "class_type": "MOSSOptimizedTextEncoderLoader",
+    "inputs": {
+      "clip_name": "qwen3.5_9b_w4a8_gptq.safetensors",
+      "device": "default"
+    }
+  },
+  "23": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "flux2-vae.safetensors"
+    }
+  }
+}

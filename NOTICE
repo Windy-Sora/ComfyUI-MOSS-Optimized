@@ -1,0 +1,13 @@
+ComfyUI MOSS Optimized — experimental derivative, not an official OpenMOSS release.
+
+Model, loader and tokenizer code is derived from:
+https://github.com/OpenMOSS/MOSS-Image
+Base commit: c1355e6b1986dfe8fba3c0455783a05899212342
+Original files: comfyui/moss-image/{model.py,loaders.py,text_encoder.py}
+Original Apache License 2.0 is included in LICENSE. Original attribution is retained.
+
+Local modifications: fused-QKV checkpoint support; Comfy Kitchen RMSNorm/RoPE;
+ComfyAttention routing; model prefetch; addcmul residuals; parameter-free SiTU module;
+independent node IDs and optional activation-only compilation at model loading.
+Modified files carry a notice. Supporting nodes, tools and documentation are new.
+No model weights are distributed. Model licenses are separate.

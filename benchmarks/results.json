@@ -1,0 +1,15 @@
+{
+  "hardware": "RTX 5070 Ti Laptop, 12 GB VRAM, 32 GB RAM",
+  "comfyui_commit": "b53f77a74",
+  "width": 1024, "height": 1536, "steps": 50, "seed": 2026101720,
+  "cfg": 3, "shift": 5, "sampler": "euler", "scheduler": "sgm_uniform",
+  "slg_single_layer": 22,
+  "runs": [
+    {"stage":"Working fused-QKV baseline", "sampling_seconds":329, "total_seconds":341.01},
+    {"stage":"CUDA 12.8 + Triton + initial optimizations", "sampling_seconds":118, "total_seconds":121.47},
+    {"stage":"CUDA 13 + fused RMSNorm/RoPE", "sampling_seconds":96, "total_seconds":103.00},
+    {"stage":"CUDA 13 + compiled SiTU", "sampling_seconds":78, "total_seconds":89.19}
+  ],
+  "limitations": "Single runs, not a statistical benchmark. Later runs reused loaded models and compiler caches. Historical results precede standalone packaging; not a cross-GPU claim.",
+  "versions": {"torch":"2.10.0+cu130","torchvision":"0.25.0+cu130","torchaudio":"2.10.0+cu130","comfy-kitchen":"0.2.37","comfy-aimdo":"0.5.6","triton-windows":"3.6.0.post26"}
+}

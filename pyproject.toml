@@ -1,0 +1,10 @@
+[project]
+name = "comfyui-moss-optimized"
+version = "0.1.0a1"
+description = "Experimental native MOSS-Image optimizations for ComfyUI"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+dependencies = []
+
+[tool.comfy]
+DisplayName = "MOSS Optimized (Experimental)"
